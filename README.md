@@ -14,10 +14,13 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `yarn test`
+### `node server.js`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Runs the API server on Port [8000] to store and get the data using /subscribe end-point
+
+### `Get Subscribed Emails`
+
+Enter [http://localhost:8000/subscribe](http://localhost:3000/subscribe) in the address bar of browser or you can hit the API with Postman using GET request.
 
 ### `yarn build`
 
