@@ -1,8 +1,11 @@
+import { Modal } from "@material-ui/core";
 import { useEffect, useState } from "react";
 const App = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [message, setMessage] = useState("");
+  const [openModal, setOpenModal] = useState(false);
   useEffect(() => {
     const subscribe = async () => {
       let params = {
@@ -15,23 +18,26 @@ const App = () => {
         },
         body: JSON.stringify(params),
       })
-        .then((data) => {
-          console.log(data);
-          return data;
-        })
         .then((res) => {
-          console.log(res);
+          return res.json();
+        })
+        .then((data) => {
+          setMessage(data.message);
+          setOpenModal(true);
         })
         .catch((error) => {
           console.log(error);
         });
-      console.log(response);
     };
     if (loading) {
       subscribe();
       setLoading(false);
     }
   }, [loading]);
+
+  const handleClose = () => {
+    setOpenModal(false);
+  };
   const onChange = (event) => {
     setEmail(event.target.value);
     setHasError(false);
@@ -79,6 +85,15 @@ const App = () => {
           <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
         </div>
       )}
+      <Modal
+        open={openModal}
+        onClose={handleClose}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description">
+        <div className="text-white-900 dark:text-white bg-gray-800 absolute h-48 w-96 top-1/2 left-1/2 -transform-50-50 flex items-center justify-center">
+          {message}
+        </div>
+      </Modal>
     </div>
   );
 };
