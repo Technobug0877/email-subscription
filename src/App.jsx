@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 const App = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
   useEffect(() => {
     const subscribe = async () => {
       let params = {
@@ -33,8 +34,13 @@ const App = () => {
   }, [loading]);
   const onChange = (event) => {
     setEmail(event.target.value);
+    setHasError(false);
   };
   const buttonClicked = (event) => {
+    if (email === "") {
+      setHasError(true);
+      return;
+    }
     setLoading(true);
   };
   return (
@@ -45,7 +51,7 @@ const App = () => {
             Subscribe to our Newsletter.
           </div>
         </div>
-        <div className="flex items-center justify-center pb-6 md:py-0 md:w-1/2 flex-grow md:border-b-8 border-gray-700 px-2">
+        <div className="flex items-center flex-col justify-center pb-6 md:py-0 md:w-1/2 flex-grow md:border-b-8 border-gray-700 px-2">
           <div className="flex flex-col rounded-lg overflow-hidden w-3/4 justify-center sm:flex-row">
             <input
               type="text"
@@ -61,6 +67,11 @@ const App = () => {
               Subscribe
             </button>
           </div>
+          {hasError && (
+            <div className="flex w-3/4 justify-flex-start text-red-900 ml-2">
+              Please Enter correct value
+            </div>
+          )}
         </div>
       </div>
       {loading && (
